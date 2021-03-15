@@ -18,6 +18,7 @@ type Book struct {
 	Author *Author `json:"author"`
 }
 
+// Book Author struct
 type Author struct {
 	Firstname string `json:"firstname"`
 	Lastname  string `json:"lastname"`
@@ -32,6 +33,7 @@ func getBooks(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(books)
 }
 
+// Get a single book
 func getBook(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r) //get params
@@ -45,6 +47,7 @@ func getBook(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&Book{})
 }
 
+// Create a book or add a new book
 func createBook(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var book Book
@@ -54,6 +57,7 @@ func createBook(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(book)
 }
 
+// Update a book
 func updateBook(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r)
@@ -71,6 +75,7 @@ func updateBook(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(books)
 }
 
+// Delete a book
 func deleteBook(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r)
@@ -83,6 +88,7 @@ func deleteBook(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(books)
 }
 
+// Main code
 func main() {
 
 	router := mux.NewRouter()
@@ -90,6 +96,9 @@ func main() {
 	// mock data
 	books = append(books, Book{ID: "1", Isbn: "1234321", Title: "Book one", Author: &Author{Firstname: "John", Lastname: "Doe"}})
 	books = append(books, Book{ID: "2", Isbn: "0987678", Title: "Book two", Author: &Author{Firstname: "Amelia", Lastname: "Heart"}})
+	books = append(books, Book{ID: "3", Isbn: "8493748", Title: "Book three", Author: &Author{Firstname: "Ali", Lastname: "Baba"}})
+	books = append(books, Book{ID: "4", Isbn: "7764839", Title: "Book four", Author: &Author{Firstname: "Deddy", Lastname: "Darno"}})
+	books = append(books, Book{ID: "5", Isbn: "1229938", Title: "Book five", Author: &Author{Firstname: "Kevin", Lastname: "Hart"}})
 
 	router.HandleFunc("/api/books", getBooks).Methods("GET")
 	router.HandleFunc("/api/books/{id}", getBook).Methods("GET")
